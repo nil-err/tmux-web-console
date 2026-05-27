@@ -29,11 +29,26 @@ Open:
 http://127.0.0.1:5179
 ```
 
+To test from another machine on the same network or through a devbox exposed port:
+
+```bash
+npm run dev:host
+```
+
+This binds the server to `0.0.0.0:5179`.
+
 ## Production Build
 
 ```bash
 npm run build
 npm run start
+```
+
+For a test deployment that listens on every interface:
+
+```bash
+npm run build
+npm run start:host
 ```
 
 ## Verification
@@ -46,4 +61,4 @@ npm run build
 
 ## Security Model
 
-This is a local tool. Writable mode sends keyboard input to tmux as the Linux user running the server. Do not bind the service to a public interface without adding authentication, authorization, and audit logging.
+This is a local tool. Writable mode sends keyboard input to tmux as the Linux user running the server. `dev:host` and `start:host` are for temporary testing only. Do not bind the service to a public interface without adding authentication, authorization, and audit logging.
