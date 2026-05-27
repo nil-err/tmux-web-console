@@ -406,12 +406,15 @@ input {
   .sidebar {
     flex: 0 0 42vh;
     width: 100%;
+    min-height: 0;
     max-width: none;
+    max-height: 42vh;
     border-right: 0;
     border-bottom: 1px solid #d7dbe3;
   }
 
   .main-panel {
+    flex: 1 1 58vh;
     min-height: 0;
   }
 
