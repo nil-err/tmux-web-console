@@ -1,8 +1,8 @@
 import express from "express";
 import { createServer } from "node:http";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { createServer as createViteServer } from "vite";
+import { resolveClientDist } from "./clientAssets.js";
 import { serverConfig } from "./config.js";
 import { registerHealthRoute } from "./routes/health.js";
 import { registerTmuxTreeRoute } from "./routes/tmuxTree.js";
@@ -10,8 +10,6 @@ import { TmuxService } from "./tmux/tmuxService.js";
 import { TerminalSessionManager } from "./terminal/terminalSessionManager.js";
 import { logger } from "./utils/logger.js";
 import { registerTerminalWebSocket } from "./ws/terminal.js";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function createApp() {
   const app = express();
@@ -25,7 +23,7 @@ async function createApp() {
   app.use(router);
 
   if (process.env.NODE_ENV === "production") {
-    const clientDist = path.resolve(__dirname, "../client");
+    const clientDist = resolveClientDist();
     app.use(express.static(clientDist));
     app.use((_request, response) => {
       response.sendFile(path.join(clientDist, "index.html"));

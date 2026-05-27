@@ -7,10 +7,11 @@ import { SessionSidebar } from "./components/SessionSidebar.js";
 import { TerminalPane } from "./components/TerminalPane.js";
 import { TerminalTabs } from "./components/TerminalTabs.js";
 import { terminalTabsReducer } from "./state/terminalTabs.js";
+import { createClientId } from "./utils/clientId.js";
 
 function createTab(window: TmuxWindow, mode: TerminalMode): TerminalTab {
   return {
-    tabId: crypto.randomUUID(),
+    tabId: createClientId(),
     title: `${window.sessionName}:${window.index} ${window.name}`,
     sessionName: window.sessionName,
     windowId: window.id,
@@ -68,6 +69,13 @@ export function App() {
     dispatchTabs({ type: "open", tab: createTab(window, mode) });
   };
 
+  const handleTabStatus = useCallback(
+    (tabId: string, status: TerminalTab["status"], errorMessage?: string) => {
+      dispatchTabs({ type: "status", tabId, status, errorMessage });
+    },
+    []
+  );
+
   const activeTab = tabsState.tabs.find((tab) => tab.tabId === tabsState.activeTabId);
 
   return (
@@ -104,9 +112,7 @@ export function App() {
                 key={tab.tabId}
                 tab={tab}
                 active={tab.tabId === activeTab?.tabId}
-                onStatus={(tabId, status, errorMessage) =>
-                  dispatchTabs({ type: "status", tabId, status, errorMessage })
-                }
+                onStatus={handleTabStatus}
               />
             ))}
           </div>

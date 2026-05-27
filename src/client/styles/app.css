@@ -218,6 +218,19 @@ input {
   gap: 2px;
 }
 
+.window-row__copy-state {
+  max-width: 76px;
+  overflow: hidden;
+  color: #0f6b5a;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.window-row__copy-state--failed {
+  color: #a2352a;
+}
+
 .icon-button {
   display: inline-flex;
   align-items: center;

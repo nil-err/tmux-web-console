@@ -1,5 +1,7 @@
 import { Circle, CircleDot, Columns2, Copy, Eye, Keyboard, Terminal } from "lucide-react";
+import { useState } from "react";
 import type { TerminalMode, TmuxWindow } from "../../shared/tmuxTypes.js";
+import { copyText } from "../utils/clipboard.js";
 import { IconButton } from "./IconButton.js";
 
 interface WindowRowProps {
@@ -9,6 +11,13 @@ interface WindowRowProps {
 
 export function WindowRow({ window, onConnect }: WindowRowProps) {
   const StatusIcon = window.active ? CircleDot : Circle;
+  const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
+
+  const handleCopy = async () => {
+    const ok = await copyText(`${window.sessionName}:${window.index}`);
+    setCopyState(ok ? "copied" : "failed");
+    globalThis.setTimeout(() => setCopyState("idle"), 1400);
+  };
 
   return (
     <div className="window-row">
@@ -27,7 +36,8 @@ export function WindowRow({ window, onConnect }: WindowRowProps) {
         ) : null}
       </div>
       <div className="window-row__actions">
-        <IconButton icon={Copy} label="Copy tmux target" onClick={() => void navigator.clipboard.writeText(`${window.sessionName}:${window.index}`)} />
+        {copyState !== "idle" ? <span className={`window-row__copy-state window-row__copy-state--${copyState}`}>{copyState === "copied" ? "Copied" : "Copy failed"}</span> : null}
+        <IconButton icon={Copy} label="Copy tmux target" onClick={() => void handleCopy()} />
         <IconButton icon={Eye} label="Open readonly" onClick={() => onConnect("readonly")} />
         <IconButton icon={Keyboard} label="Open writable" variant="primary" onClick={() => onConnect("write")} />
       </div>

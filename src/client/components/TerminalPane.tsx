@@ -17,6 +17,7 @@ export function TerminalPane({ tab, active, onStatus }: TerminalPaneProps) {
   const socketRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
+    let terminalEnded = false;
     const terminal = new Terminal({
       cursorBlink: tab.mode === "write",
       convertEol: true,
@@ -61,17 +62,20 @@ export function TerminalPane({ tab, active, onStatus }: TerminalPaneProps) {
       } else if (message.type === "status") {
         onStatus(tab.tabId, message.status);
       } else if (message.type === "error") {
+        terminalEnded = true;
         terminal.writeln(`\r\n[${message.code}] ${message.message}`);
         onStatus(tab.tabId, "error", message.message);
       } else if (message.type === "exit") {
+        terminalEnded = true;
         onStatus(tab.tabId, "exited");
       }
     };
     socket.onerror = () => {
+      terminalEnded = true;
       onStatus(tab.tabId, "error", "WebSocket connection failed");
     };
     socket.onclose = () => {
-      if (tab.status !== "error" && tab.status !== "exited") {
+      if (!terminalEnded) {
         onStatus(tab.tabId, "exited");
       }
     };
@@ -103,7 +107,7 @@ export function TerminalPane({ tab, active, onStatus }: TerminalPaneProps) {
       socket.close();
       terminal.dispose();
     };
-  }, [onStatus, tab]);
+  }, [onStatus, tab.mode, tab.sessionName, tab.tabId, tab.windowId]);
 
   useEffect(() => {
     if (active) {
