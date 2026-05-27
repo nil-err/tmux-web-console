@@ -12,7 +12,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "node",
-    exclude: ["**/node_modules/**", "**/.git/**", "dist/**"],
+    exclude: ["**/node_modules/**", "**/.git/**", ".worktrees/**", "dist/**"],
     coverage: {
       provider: "v8",
       reporter: ["text", "html"]
