@@ -9,5 +9,6 @@ describe("package scripts", () => {
 
     expect(pkg.scripts["dev:host"]).toContain("HOST=0.0.0.0");
     expect(pkg.scripts["start:host"]).toContain("HOST=0.0.0.0");
+    expect(pkg.scripts.start).toBe("node dist/server/src/server/index.js");
   });
 });
