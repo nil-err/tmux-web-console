@@ -39,6 +39,22 @@ cd tmux-web-console
 npm install
 ```
 
+## npm Package
+
+Install globally:
+
+```bash
+npm install -g tmux-web-console
+```
+
+Run without a global install:
+
+```bash
+npx tmux-web-console
+```
+
+The package ships a `tmux-web-console` CLI entrypoint that starts the server from the installed package directory.
+
 ## Development Server
 
 ```bash
@@ -116,6 +132,10 @@ The current UI uses it for:
 - `botmux`: Botmux Dashboard
 - `tmux`: tmux session refresh
 - `ps`: Resource Monitor
+
+## Publishing
+
+The repository includes a GitHub Actions workflow at `.github/workflows/publish.yml` for npm Trusted Publishing. To use it, register the repository as a Trusted Publisher on npmjs.com, then publish a GitHub release to trigger the workflow.
 
 ## Verification
 

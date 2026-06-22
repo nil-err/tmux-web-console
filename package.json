@@ -1,7 +1,29 @@
 {
   "name": "tmux-web-console",
   "version": "0.1.0",
-  "private": true,
+  "description": "Local web UI for viewing and controlling tmux sessions.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nil-err/tmux-web-console.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nil-err/tmux-web-console/issues"
+  },
+  "homepage": "https://github.com/nil-err/tmux-web-console#readme",
+  "bin": {
+    "tmux-web-console": "./bin/tmux-web-console.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22.14.0",
+    "npm": ">=11.5.1"
+  },
   "type": "module",
   "scripts": {
     "dev": "tsx src/server/index.ts",
