@@ -6,16 +6,17 @@ interface IconButtonProps {
   label: string;
   onClick: () => void;
   disabled?: boolean;
+  title?: string;
   variant?: "ghost" | "primary" | "danger";
 }
 
-export function IconButton({ icon: Icon, label, onClick, disabled, variant = "ghost" }: IconButtonProps) {
+export function IconButton({ icon: Icon, label, onClick, disabled, title, variant = "ghost" }: IconButtonProps) {
   return (
     <button
       aria-label={label}
       className={`icon-button icon-button--${variant}`}
       disabled={disabled}
-      title={label}
+      title={title ?? label}
       type="button"
       onClick={onClick}
     >

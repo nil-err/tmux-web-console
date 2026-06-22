@@ -7,9 +7,10 @@ interface SessionGroupProps {
   expanded: boolean;
   onToggle: () => void;
   onConnect: (window: TmuxWindow, mode: TerminalMode) => void;
+  showWritableActions: boolean;
 }
 
-export function SessionGroup({ session, expanded, onToggle, onConnect }: SessionGroupProps) {
+export function SessionGroup({ session, expanded, onToggle, onConnect, showWritableActions }: SessionGroupProps) {
   const ToggleIcon = expanded ? ChevronDown : ChevronRight;
   const AttachIcon = session.attachedCount > 0 ? Link : Unlink;
 
@@ -27,7 +28,12 @@ export function SessionGroup({ session, expanded, onToggle, onConnect }: Session
       {expanded ? (
         <div className="session-group__windows">
           {session.windows.map((window) => (
-            <WindowRow key={window.id} window={window} onConnect={(mode) => onConnect(window, mode)} />
+            <WindowRow
+              key={window.id}
+              window={window}
+              showWritableAction={showWritableActions}
+              onConnect={(mode) => onConnect(window, mode)}
+            />
           ))}
         </div>
       ) : null}

@@ -6,10 +6,11 @@ import { IconButton } from "./IconButton.js";
 
 interface WindowRowProps {
   window: TmuxWindow;
+  showWritableAction: boolean;
   onConnect: (mode: TerminalMode) => void;
 }
 
-export function WindowRow({ window, onConnect }: WindowRowProps) {
+export function WindowRow({ window, showWritableAction, onConnect }: WindowRowProps) {
   const StatusIcon = window.active ? CircleDot : Circle;
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
 
@@ -39,7 +40,9 @@ export function WindowRow({ window, onConnect }: WindowRowProps) {
         {copyState !== "idle" ? <span className={`window-row__copy-state window-row__copy-state--${copyState}`}>{copyState === "copied" ? "Copied" : "Copy failed"}</span> : null}
         <IconButton icon={Copy} label="Copy tmux target" onClick={() => void handleCopy()} />
         <IconButton icon={Eye} label="Open readonly" onClick={() => onConnect("readonly")} />
-        <IconButton icon={Keyboard} label="Open writable" variant="primary" onClick={() => onConnect("write")} />
+        {showWritableAction ? (
+          <IconButton icon={Keyboard} label="Open writable" variant="primary" onClick={() => onConnect("write")} />
+        ) : null}
       </div>
     </div>
   );
