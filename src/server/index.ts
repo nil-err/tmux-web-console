@@ -1,7 +1,6 @@
 import express from "express";
 import { createServer } from "node:http";
 import path from "node:path";
-import { createServer as createViteServer } from "vite";
 import { BotmuxDashboardService } from "./botmux/botmuxDashboardService.js";
 import { ExternalLinksConfigService } from "./config/externalLinksConfigService.js";
 import { resolveClientDist } from "./clientAssets.js";
@@ -45,6 +44,7 @@ async function createApp() {
       response.sendFile(path.join(clientDist, "index.html"));
     });
   } else {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa"
