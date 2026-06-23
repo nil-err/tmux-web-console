@@ -1,6 +1,6 @@
 {
   "name": "tmux-web-console",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Local web UI for viewing and controlling tmux sessions.",
   "license": "MIT",
   "repository": {
